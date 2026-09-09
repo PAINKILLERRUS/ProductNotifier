@@ -4,5 +4,6 @@
     <file url="file://$PROJECT_DIR$/EmailNotificationMicroservice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ProductMicroservice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eventcore/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mockservice/src/main/java" charset="UTF-8" />
   </component>
 </project>
