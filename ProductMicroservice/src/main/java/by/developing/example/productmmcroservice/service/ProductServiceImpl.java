@@ -2,6 +2,7 @@ package by.developing.example.productmmcroservice.service;
 
 import by.developing.example.eventcore.ProductCreatedEvent;
 import by.developing.example.productmmcroservice.service.dto.CreateProductDTO;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -28,8 +29,16 @@ public class ProductServiceImpl implements ProductService {
 
         ProductCreatedEvent productCreatedEvent = new ProductCreatedEvent(productId, dto.getTitle(), dto.getPrice(), dto.getQuantity());
 
+        ProducerRecord<String, ProductCreatedEvent> record = new ProducerRecord<>(
+                "product-created-events-topic",
+                productId,
+                productCreatedEvent
+        );
+
+        record.headers().add("messageId", UUID.randomUUID().toString().getBytes());
+
         CompletableFuture<SendResult<String, ProductCreatedEvent>> future = kafkaTemplate
-                .send("product-created-events-topic", productId, productCreatedEvent);//отправка в асинхронном режиме
+                .send(record);//отправка в асинхронном режиме
 
         future.whenComplete((result, exception) -> {
             if (exception != null) {
